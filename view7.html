@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>Customers with orders of value greater than $100</title>
+  </head>
+
+  <body>
+    <h1>Customers with orders of value greater than $100</h1>
+
+    <div id="table"></div>
+  </body>
+
+  <script>
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        var txt = "<table>";
+        myObj = JSON.parse(this.responseText);
+        console.log(myObj);
+        txt += "<table border='1'>";
+        txt += "<tr><td>Customer Name: </td></tr>";
+        for (x in myObj) {
+          console.log(myObj[x]);
+          txt += "<tr><td>" + myObj[x].CustomerName + "</td></tr>";
+        }
+        txt += "</table>";
+        document.getElementById("table").innerHTML = txt;
+      }
+    };
+
+    xmlhttp.open("GET", "http://localhost:3000/view7", true);
+    // xmlhttp.setRequestHeader(
+    //   "Content-type",
+    //   "application/x-www-form-urlencoded"
+    // );
+    xmlhttp.send();
+  </script>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>Average Price Per Category</title>
+  </head>
+
+  <body>
+    <h1>Average Price Per Category</h1>
+
+    <div id="table"></div>
+  </body>
+
+  <script>
+    console.log("Script started");
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        var txt = "<table>";
+        myObj = JSON.parse(this.responseText);
+        console.log(myObj);
+        txt += "<table border='1'>";
+        txt += "<tr><td>Category:</td><td>Average Price</td></tr>";
+        for (x in myObj) {
+          console.log(myObj[x]);
+          txt +=
+            "<tr><td>" +
+            x +
+            "</td><td>" +
+            myObj[0]["Average_Price_Per_Category"] +
+            "</td></tr>";
+        }
+        txt += "</table>";
+        document.getElementById("table").innerHTML = txt;
+      }
+    };
+
+    xmlhttp.open("GET", "http://localhost:3000/view10", true);
+    // xmlhttp.setRequestHeader(
+    //   "Content-type",
+    //   "application/x-www-form-urlencoded"
+    // );
+    xmlhttp.send();
+  </script>
+</html>

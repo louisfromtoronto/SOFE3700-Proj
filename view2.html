@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>Average Price</title>
+  </head>
+
+  <body>
+    <h1>
+      Average prcie of products that have been added to cart less than three
+      times
+    </h1>
+
+    <div id="table"></div>
+  </body>
+
+  <script>
+    console.log("Script started");
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        var txt = "<table>";
+        myObj = JSON.parse(this.responseText);
+        console.log(myObj);
+        txt += "<table border='1'>";
+        txt +=
+          "<tr><td>Customer Name: </td><td>Billing Address</td><td>Order Total</td><td>Order Date</td><td>Ship Date</td></tr>";
+        for (x in myObj) {
+          console.log(myObj[x]);
+          txt +=
+            "<tr><td>" +
+            myObj[x].CustomerName +
+            "</td><td>" +
+            myObj[x].BillingAddress +
+            "</td><td>" +
+            myObj[x].OrderTotal +
+            "</td><td>" +
+            myObj[x].OrderDate +
+            "</td><td>" +
+            myObj[x].ShipDate +
+            "</td></tr>";
+        }
+        txt += "</table>";
+        document.getElementById("table").innerHTML = txt;
+      }
+    };
+
+    xmlhttp.open("GET", "http://localhost:3000/view1", true);
+    // xmlhttp.setRequestHeader(
+    //   "Content-type",
+    //   "application/x-www-form-urlencoded"
+    // );
+    xmlhttp.send();
+  </script>
+</html>

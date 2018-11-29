@@ -1,0 +1,40 @@
+h1 {
+  color: blue;
+  font-family: Helvetica;
+  font-size: 40pt;
+  display: inline-block;
+}
+
+#title {
+  color: blue;
+  font-family: Helvetica;
+  font-size: 40pt;
+  display: inline-block;
+}
+
+#cart {
+  display: inline-block;
+  float: right;
+  padding: 10px;
+  font-size: 20pt;
+  font-family: Helvetica;
+}
+
+header {
+  background-color: lightblue;
+  width: 100%;
+  margin: 0;
+  padding: 10px;
+}
+
+a {
+  text-decoration: none;
+}
+
+#now-in-stock {
+  color: grey;
+  font-family: Helvetica;
+  font-size: 40pt;
+  display: inline-block;
+  padding: 10px;
+}

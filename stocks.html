@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>Computer Store</title>
+  </head>
+
+  <body>
+    <h1>Favourite Stocks</h1>
+    <table border="1" id="TableA">
+      <tr>
+        <td>Symbol</td>
+        <td></td>
+      </tr>
+    </table>
+  </body>
+  <script>
+    var xhr = new XMLHttpRequest();
+    let url = "http://localhost:3000/favourites";
+    xhr.open("GET", url, true);
+    xhr.onreadystatechange = function() {
+      // Call a function when the state changes.
+      if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+        // Request finished. Do processing here.
+        json = JSON.parse(this.responseText);
+        console.log(json);
+
+        // Make GET Request to stocks data provider
+        for (var i = 0; i < json.length; i++) {
+          let symbol = json[i]["symbol"];
+          getStocksData(symbol);
+        }
+      }
+    };
+    xhr.send();
+
+    function getStocksData(symbol) {
+      console.log("Getting symbol for " + symbol);
+      var xhr = new XMLHttpRequest();
+      let url =
+        "https://api.iextrading.com/1.0/stock/" +
+        symbol +
+        "/batch?types=quote&range=1m&last=10";
+      xhr.open("GET", url, true);
+      xhr.onreadystatechange = function() {
+        // Call a function when the state changes.
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+          // Request finished. Do processing here.
+          json = JSON.parse(this.responseText);
+          console.log(json);
+          // Insert into table now
+          let data = {
+            symbol: json["quote"]["symbol"],
+            companyName: json["quote"]["companyName"],
+            open: json["quote"]["open"],
+            close: json["quote"]["close"],
+            change: json["quote"]["change"]
+          };
+          addRow(data);
+        }
+      };
+      xhr.send();
+    }
+
+    function addRow(data) {
+      // Get a reference to the table
+      var tableRef = document.getElementById("TableA");
+
+      // Insert a row in the table at end of table
+      var newRow = tableRef.insertRow(-1);
+
+      // Insert a cell in the row at index 0
+      var symbolCell = newRow.insertCell(0);
+
+      // Append a text node to the cell
+      var newText = document.createTextNode(data.symbol);
+      symbolCell.appendChild(newText);
+
+      // Insert a cell for data at index 1
+      var dataCell = newRow.insertCell(1);
+      var child = document.createElement("p");
+      child.innerHTML =
+        "Company: " +
+        data.companyName +
+        "<br>" +
+        "Open: " +
+        data.open +
+        "<br> Close: " +
+        data.close +
+        "<br> Change: " +
+        data.change;
+      dataCell.appendChild(child);
+    }
+
+    function deleteClicked() {
+      // Send delete request to server
+      xmlhttp = new XMLHttpRequest();
+      console.log("Deleteting " + document.getElementById("toDelete").value);
+      let url =
+        "localhost:3000/favourites/delete/" +
+        document.getElementById("toDelete").value;
+      console.log(url);
+      xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          console.log("DELETED");
+        }
+      };
+      xmlhttp.open("GET", url, true);
+    }
+  </script>
+</html>

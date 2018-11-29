@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>UOIT Computer Store</title>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/styles.css?" />
+  </head>
+
+  <header>
+    <h1 id="title">UOIT Computer Store</h1>
+
+    <label>Select Account:</label>
+    <select id="accout-select" onchange="accountSelected()"></select>
+  </header>
+
+  <body>
+    <h1 id="now-in-stock">Now in stock</h1>
+    <div id="table"></div>
+  </body>
+
+  <script>
+    // This is run when the "Add to Cart" button is pressed
+    function addedToCard(id) {
+      console.log(id);
+    }
+
+    // Sets the option in the accout dropdown to whatever is stored in the cookie
+    // var setDDV = (function setDropDownValue() {
+    //   console.log("Set dropdown value");
+    //   document.getElementById("account-select").value = "Mark Williams";
+    // })();
+
+    // Populate Table
+    var xhr = new XMLHttpRequest(),
+      method = "GET",
+      url = "http://localhost:3000/products";
+
+    xhr.open(method, url, true);
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        console.log(xhr.responseText);
+        var txt = "<table>";
+        myObj = JSON.parse(this.responseText);
+        txt += "<table border='1'>";
+        txt += "<tr><td>Product Name: </td><td>Price: </td></tr>";
+        for (x in myObj) {
+          txt +=
+            "<tr><td>" +
+            myObj[x].ProductName +
+            "</td><td>" +
+            "$" +
+            myObj[x].Price +
+            "</td><td>" +
+            `<button onClick="addedToCard(${
+              myObj[x].Product_ID
+            })">Add to Cart</button>` +
+            "</td></tr>";
+        }
+        txt += "</table>";
+        document.getElementById("table").innerHTML = txt;
+      }
+    };
+    xhr.send();
+
+    // Accounts Dropdown
+    var xhrAccounts = new XMLHttpRequest(),
+      method = "GET",
+      url = "http://localhost:3000/customers";
+
+    xhrAccounts.open(method, url, true);
+    xhrAccounts.onreadystatechange = function() {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        myObj = JSON.parse(this.responseText);
+        var txt = "";
+        for (x in myObj) {
+          txt += `<option>${myObj[x].CustomerName}</option>`;
+        }
+        document.getElementById("accout-select").innerHTML = txt;
+      }
+    };
+    xhrAccounts.send();
+
+    // Trigger when account is selected
+    function accountSelected() {
+      console.log(
+        "Account Selected: " + document.getElementById("accout-select").value
+      );
+      // Set cookie
+      document.cookie = `username=${
+        document.getElementById("accout-select").value
+      }`;
+    }
+  </script>
+
+  <style type="text/css" id="styles">
+    th,
+    td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    tr:hover td {
+      background-color: lightgray;
+    }
+  </style>
+</html>

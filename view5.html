@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>CProducts that cost less than $200 or bought more than once</title>
+  </head>
+
+  <body>
+    <h1>Products that cost less than $200 or bought more than once</h1>
+
+    <div id="table"></div>
+  </body>
+
+  <script>
+    console.log("Script started");
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        var txt = "<table>";
+        myObj = JSON.parse(this.responseText);
+        console.log(myObj);
+        txt += "<table border='1'>";
+        txt += "<tr><td>Product ID: </td></tr>";
+        for (x in myObj) {
+          console.log(myObj[x]);
+          txt += "<tr><td>" + myObj[x].Product_ID + "</td></tr>";
+        }
+        txt += "</table>";
+        document.getElementById("table").innerHTML = txt;
+      }
+    };
+
+    xmlhttp.open("GET", "http://localhost:3000/view5", true);
+    // xmlhttp.setRequestHeader(
+    //   "Content-type",
+    //   "application/x-www-form-urlencoded"
+    // );
+    xmlhttp.send();
+  </script>
+</html>

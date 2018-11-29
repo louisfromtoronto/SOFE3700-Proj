@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>Average order amount</title>
+  </head>
+
+  <body>
+    <h1>Average order amount</h1>
+
+    <div id="table"></div>
+  </body>
+
+  <script>
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        myObj = JSON.parse(this.responseText);
+        console.log(myObj);
+        var txt =
+          "<p>The average price of all products is: " +
+          myObj[0]["avg(OrderTotal)"] +
+          "</p>";
+        document.getElementById("table").innerHTML = txt;
+      }
+    };
+
+    xmlhttp.open("GET", "http://localhost:3000/view8", true);
+    // xmlhttp.setRequestHeader(
+    //   "Content-type",
+    //   "application/x-www-form-urlencoded"
+    // );
+    xmlhttp.send();
+  </script>
+</html>

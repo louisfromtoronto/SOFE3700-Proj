@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>Computer Store</title>
+
+    <link rel="stylesheet" href="css/styles.css?" />
+  </head>
+
+  <body>
+    <header></header>
+    <a href="cportal.html"><h1>Customer Portal</h1></a> <br />
+    <h2>Dashboard</h2>
+    <header></header>
+    <ul id="views">
+      <li><a href="view1.html">Customer and order details</a></li>
+      <li>
+        <a href="view2.html"
+          >Average prcie of products that have been added to cart less than
+          three times.</a
+        >
+      </li>
+      <li>
+        <a href="view3.html">Get product with highest price in each category</a>
+      </li>
+      <li>
+        <a href="view5.html"
+          >Products that cost less than $200 or bought more than once</a
+        >
+      </li>
+      <li><a href="view6.html">Average price of all items</a></li>
+      <li>
+        <a href="view7.html"
+          >Customers who have made orders worth more than $100</a
+        >
+      </li>
+      <li><a href="view8.html">Average order amount</a></li>
+      <li><a href="view10.html">Average Price Per Category</a></li>
+      <li>
+        <a href="view11.html"
+          >Products have have been added more than three times to a single
+          cart</a
+        >
+      </li>
+    </ul>
+
+    <hr />
+    <h2>Stocks</h2>
+    <label>Enter a stock symbol:</label>
+    <form><input type="text" id="symbol" /></form>
+    <button type="button" id="added">Add to favourites!!!!!!!</button> <br />
+    <a href="stocks.html">View Favourite Stocks>>></a>
+
+    <hr />
+  </body>
+
+  <script>
+    document.getElementById("added").addEventListener("click", function() {
+      console.log("Clicked");
+      var xhr = new XMLHttpRequest();
+      let url =
+        "http://localhost:f/symbol/" +
+        document.getElementById("symbol").value +
+        "/";
+      xhr.open("POST", url, true);
+      xhr.onreadystatechange = function() {
+        // Call a function when the state changes.
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+          // Request finished. Do processing here.
+          alert("Added to favourites!");
+        }
+      };
+      xhr.send();
+      // xhr.send(new Int8Array());
+      // xhr.send(document);
+    });
+  </script>
+</html>
